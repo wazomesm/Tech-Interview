@@ -9,79 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
-	const [movies, setMovies] = useState([
-        {
-            "Title": "Breaking Bad",
-            "Year": "2008–2013",
-            "imdbID": "tt0903747",
-            "Type": "series",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMjhiMzgxZTctNDc1Ni00OTIxLTlhMTYtZTA3ZWFkODRkNmE2XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg"
-        },
-        {
-            "Title": "The Good, the Bad and the Ugly",
-            "Year": "1966",
-            "imdbID": "tt0060196",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BOTQ5NDI3MTI4MF5BMl5BanBnXkFtZTgwNDQ4ODE5MDE@._V1_SX300.jpg"
-        },
-        {
-            "Title": "Bad Boys",
-            "Year": "1995",
-            "imdbID": "tt0112442",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMGE1ZTQ0ZTEtZTEwZS00NWE0LTlmMDUtMTE1ZWJiZTYzZTQ2XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg"
-        },
-        {
-            "Title": "Bad Boys II",
-            "Year": "2003",
-            "imdbID": "tt0172156",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BZmU4NzVkZjEtZmQxMi00ZDY5LWI3ZDYtMWRmZjE5YmYwZjQzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"
-        },
-        {
-            "Title": "Bad Teacher",
-            "Year": "2011",
-            "imdbID": "tt1284575",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMTQ5NDI4MDM0Nl5BMl5BanBnXkFtZTcwNDYwODU2NA@@._V1_SX300.jpg"
-        },
-        {
-            "Title": "El Camino: A Breaking Bad Movie",
-            "Year": "2019",
-            "imdbID": "tt9243946",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BNjk4MzVlM2UtZGM0ZC00M2M1LThkMWEtZjUyN2U2ZTc0NmM5XkEyXkFqcGdeQXVyOTAzMTc2MjA@._V1_SX300.jpg"
-        },
-        {
-            "Title": "El Camino: A Breaking Bad Movie",
-            "Year": "2019",
-            "imdbID": "tt9243946",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BNjk4MzVlM2UtZGM0ZC00M2M1LThkMWEtZjUyN2U2ZTc0NmM5XkEyXkFqcGdeQXVyOTAzMTc2MjA@._V1_SX300.jpg"
-        },
-        {
-            "Title": "Bad Santa",
-            "Year": "2003",
-            "imdbID": "tt0307987",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMjA4Njg1MDcwN15BMl5BanBnXkFtZTYwMzAxNjM3._V1_SX300.jpg"
-        },
-        {
-            "Title": "Bad Boys for Life",
-            "Year": "2020",
-            "imdbID": "tt1502397",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BMWU0MGYwZWQtMzcwYS00NWVhLTlkZTAtYWVjOTYwZTBhZTBiXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_SX300.jpg"
-        },
-        {
-            "Title": "Bad Times at the El Royale",
-            "Year": "2018",
-            "imdbID": "tt6628394",
-            "Type": "movie",
-            "Poster": "https://m.media-amazon.com/images/M/MV5BOTk1Nzk1MDc1MF5BMl5BanBnXkFtZTgwNjU2NDExNjM@._V1_SX300.jpg"
-        }
-       
-	]);
+	const [movies, setMovies] = useState([]);
 	const [favourites, setFavourites] = useState([]);
 	const [searchValue, setSearchValue] = useState('');
 	const getMovieRequest = async (searchValue) => {
@@ -95,21 +23,21 @@ const App = () => {
 		}
     };
 
-    const showMoreMovies = async () => {
-        const url = 'http://www.omdbapi.com/?s=bad&apikey=91a780c3&page=3';
+    const setFirstMovies = async () => {
+        const url = 'http://www.omdbapi.com/?s=bad&apikey=91a780c3&page=1';
         const response = await fetch(url);
         const responseJson = await response.json();
 
         if (responseJson.Search) {
             setMovies(responseJson.Search);
         }
-    };
+	};
+	
 
-    useEffect(() => {
-        showMoreMovies();
+	useEffect(() => {
+		setFirstMovies();
     }, []);
-
-
+    
 	useEffect(() => {
 		getMovieRequest(searchValue);
 	}, [searchValue]);
@@ -146,19 +74,21 @@ const App = () => {
 	return (
 		<div className='container-fluid '>
 			<div className='row d-flex align-items-center mt-4 mb-4'>
-				<MovieListHeading heading='Movies' />
+                <MovieListHeading heading='Movies' />
+
 				<SearchBox searchValue={searchValue} setSearchValue={setSearchValue} />
-			</div>
-			<div className='row movies'>
+            </div>
+
+			<div className='row align-items-center movies'>
 
 				<MovieList
 					movies={movies}
 					handleFavouritesClick={addFavouriteMovie}
 					favouriteComponent={AddFavourites}
-				/>
-				<button onClick={showMoreMovies}>More Movie...</button>
-            </div>
-
+                />
+                
+			</div>
+			<button className="button btn-outline-dark" >More Movies...</button>
 			<div className='row d-flex align-items-center mt-4 mb-4'>
 				<MovieListHeading heading='Favourites' />
 			</div>

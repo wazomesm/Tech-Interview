@@ -1,13 +1,17 @@
 body {
     background: #141414;
-    color: #ffffff;
+    color: #7C1F0B;
 }
 
 .row .movies {
     overflow-x: auto;
     flex-wrap: nowrap;
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    
+}
+
+.container-fluid {
+    background: #2C5364;
 }
 
 .image-container {
@@ -28,10 +32,12 @@ body {
     position: absolute;
     background: rgba(0, 0, 0, 0.8);
     width: 100%;
-    transition: 0.5s ease;
+    transition: 0.1s ease;
     opacity: 0;
     bottom: 0;
     font-size: 20px;
     padding: 20px;
     text-align: center;
 }
+
+
